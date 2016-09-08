@@ -31,6 +31,42 @@ self.addEventListener('notificationclick', function(e)	{
   notification.close();
 });
 
+/**
+ * To test this, you can press the 'push' button in the debugging tools Application tab
+ * (This UI may be subject to change).
+ */
+self.addEventListener('push',	function(e)	{
+
+  console.log('Push notification received!');
+
+  //	TODO 4 - update push event handler to get data from the message
+  var	options	=	{
+    body:	'This	notification was generated from a push!',
+    icon:	'images/notification-flat.png',
+    vibrate:	[100,	50,	100],
+    data:	{
+      dateOfArrival:	Date.now(),
+      primaryKey:	'-push-notification'
+    },
+    actions: [
+      {
+        action: 'explore',	
+        title: 'Explore this new world',
+        icon: 'images/checkmark.png'
+      },
+      {
+        action: 'close',	
+        title: 'I don’t want any of this',
+        icon: 'images/xmark.png'
+      }
+    ]
+  };
+
+  e.waitUntil(
+    self.registration.showNotification('Hello	world!',	options)
+  );
+});
+
 function sendMessageToAllClients(msg) {
   clients.matchAll().then(clients => {
     clients.forEach(client => {
